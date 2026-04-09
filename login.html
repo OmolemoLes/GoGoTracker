@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - Go-Go Trip Tracker</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+    <body class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <h1>🔐 Login</h1>
+                    <p>Welcome back to <strong>Go-Go Trip Tracker!</strong></p>
+                </div>
+
+                <form class="auth-form" onsubmit="login(event)">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input id="email" type="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="auth-button">Login</button>
+                </form>
+
+                <div id="msg" class="message"></div>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="register.html">Register here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        async function login(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const msgElement = document.getElementById("msg");
+
+            try {
+                const res = await fetch("http://localhost:3000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    msgElement.classList.add("success");
+                    msgElement.innerText = "✓ Login successful! Redirecting...";
+                    setTimeout(() => window.location.href = "index.html", 1500);
+                } else {
+                    msgElement.classList.add("error");
+                    msgElement.innerText = "✗ Login failed! Check your credentials.";
+                }
+            } catch (error) {
+                msgElement.classList.add("error");
+                msgElement.innerText = "✗ Connection error. Please try again.";
+            }
+        }
+        </script>
+    </body>
+</html>
