@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register - Go-Go Trip Tracker</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+    <body class="auth-page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h1>🚗 Register</h1>
+                    <p>Register to track your trips and carbon emissions!</p>
+                </div>
+
+                <form class="auth-form" onsubmit="register(event)">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input id="email" type="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" placeholder="••••••••" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input id="confirm-password" type="password" placeholder="••••••••" required minlength="6">
+                    </div>
+
+                    <button type="submit" class="auth-button">Create Account</button>
+                </form>
+
+                <div id="msg" class="message"></div>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        async function register(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const msgElement = document.getElementById("msg");
+
+            if (password !== confirmPassword) {
+                msgElement.classList.add("error");
+                msgElement.innerText = "✗ Passwords do not match!";
+                return;
+            }
+
+            try {
+                const res = await fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const text = await res.text();
+
+                if (res.ok) {
+                    msgElement.classList.add("success");
+                    msgElement.innerText = "✓ " + text + " Redirecting to login...";
+                    setTimeout(() => window.location.href = "login.html", 2000);
+                } else {
+                    msgElement.classList.add("error");
+                    msgElement.innerText = "✗ " + text;
+                }
+            } catch (error) {
+                msgElement.classList.add("error");
+                msgElement.innerText = "✗ Connection error. Please try again.";
+            }
+        }
+        </script>
+    </body>
+</html>
