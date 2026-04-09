@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <title>Go-Go Trip Tracker</title>
+    </head>
+
+    <body>
+
+    <div class="logout-container">
+        <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <h1><i class="fas fa-car"></i> Go-Go Trip Tracker</h1>
+
+    <div class="form">
+        <p>Status: <span id="status">Stopped</span></p>
+        <p>Speed: <span id="speed">0</span> km/h</p>
+        
+        <select id="vehicle">
+            <option value="" disabled selected>Make a Selection</option>
+            <option value="diesel">Diesel Car</option>
+            <option value="electric">Electric Car</option>
+            <option value="hybrid">Hybrid Car</option>
+            <option value="petrol">Petrol Car</option>
+        </select>
+
+        <button onclick="tripstart()">Start Trip</button>
+        <button onclick="tripend()">Stop Trip</button>
+        <br>
+        <button onclick="addTrip()">Add Trip</button>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="dashboard">
+        <h2>Dashboard</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Trips</h3>
+                <p id="totalTrips">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Distance</h3>
+                <p id="totalDistance">0 km</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Carbon Emission</h3>
+                <p id="totalCO2">0 kg</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Carbon Emission Trend</h2>
+            <canvas id="co2Chart"></canvas>
+        </div>
+        <!--h2>Trip History</h2>
+        <div id="trips"></div-->
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+
+    </body>
+</html>
